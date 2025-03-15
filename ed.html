@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Pronunciation Quiz (-ed)</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .question p {
+            font-weight: bold;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>English Pronunciation Quiz (-ed)</h2>
+    <form id="quizForm">
+        <div id="questions"></div>
+        <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+    <p id="result"></p>
+    <div id="feedback"></div>
+
+    <script>
+        emailjs.init("ElHtGvxfWTX6zj1zh"); // User ID từ EmailJS
+
+        const questions = [
+            { words: ["Needed", "Booked", "Stopped", "Washed"], answer: "Needed" },
+            { words: ["Loved", "Teased", "Washed", "Rained"], answer: "Washed" },
+            { words: ["Decided", "Waited", "Handed", "Designed"], answer: "Designed" },
+            { words: ["Packed", "Punched", "Pleased", "Pushed"], answer: "Pleased" },
+            { words: ["Opened", "Knocked", "Played", "Occurred"], answer: "Occurred" },
+            { words: ["Talked", "Watched", "Lived", "Stopped"], answer: "Lived" },
+            { words: ["Covered", "Installed", "Described", "Decorated"], answer: "Described" },
+            { words: ["Claimed", "Warned", "Occurred", "Existed"], answer: "Existed" },
+            { words: ["Carried", "Looked", "Managed", "Opened"], answer: "Looked" },
+            { words: ["Pleased", "Smoked", "Stopped", "Missed"], answer: "Pleased" },
+            { words: ["Pleased", "Erased", "Increased", "Amused"], answer: "Erased" },
+            { words: ["Arrived", "Believed", "Received", "Hoped"], answer: "Hoped" },
+            { words: ["Opened", "Knocked", "Played", "Occurred"], answer: "Occurred" },
+            { words: ["Killed", "Hurried", "Regretted", "Planned"], answer: "Killed" },
+            { words: ["Visited", "Showed", "Wondered", "Studied"], answer: "Showed" },
+            { words: ["Sacrificed", "Finished", "Fixed", "Seized"], answer: "Seized" },
+            { words: ["Painted", "Provided", "Protected", "Equipped"], answer: "Equipped" },
+            { words: ["Hurried", "Decided", "Planned", "Wondered"], answer: "Planned" },
+            { words: ["Posted", "Added", "Managed", "Arrested"], answer: "Managed" },
+            { words: ["Dreamed", "Neglected", "Denied", "Admired"], answer: "Dreamed" },
+            { words: ["Worked", "Wanted", "Stopped", "Asked"], answer: "Wanted" },
+            { words: ["Annoyed", "Phoned", "Watched", "Remembered"], answer: "Watched" },
+            { words: ["Waited", "Mended", "Objected", "Faced"], answer: "Faced" },
+            { words: ["Allowed", "Dressed", "Flashed", "Mixed"], answer: "Allowed" },
+            { words: ["Switched", "Stayed", "Believed", "Cleared"], answer: "Switched" },
+            { words: ["Rubbed", "Tugged", "Stopped", "Filled"], answer: "Stopped" },
+            { words: ["Dimmed", "Traveled", "Passed", "Stirred"], answer: "Passed" },
+            { words: ["Tipped", "Begged", "Quarreled", "Carried"], answer: "Carried" },
+            { words: ["Tested", "Marked", "Presented", "Founded"], answer: "Marked" }
+        ];
+
+        const container = document.getElementById("questions");
+        questions.forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question";
+            div.innerHTML = `
+                <p>${index + 1}. Which word has a different -ed pronunciation?</p>
+                ${q.words.map(word => `<label><input type="radio" name="q${index}" value="${word}"> ${word}</label><br>`).join("")}
+            `;
+            container.appendChild(div);
+        });
+
+        function submitQuiz() {
+            let score = 0;
+            let feedback = "";
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name='q${index}']:checked`);
+                if (selected) {
+                    if (selected.value === q.answer) {
+                        score++;
+                    } else {
+                        feedback += `Câu ${index + 1}: Bạn chọn "${selected.value}". Đáp án đúng: "${q.answer}"\n`;
+                    }
+                } else {
+                    feedback += `Câu ${index + 1}: Không trả lời. Đáp án đúng: "${q.answer}"\n`;
+                }
+            });
+
+            document.getElementById("result").textContent = `You scored ${score}/${questions.length}`;
+            document.getElementById("feedback").innerText = feedback;
+
+            // Gửi kết quả qua EmailJS
+            const templateParams = {
+                score: score,
+                total: questions.length,
+                details: feedback,
+                user_email: "liana4539g@gmail.com" // Email nhận kết quả
+            };
+
+            emailjs.send("service_7qb0hje", "template_aa93qgo", templateParams)
+                .then(function(response) {
+                    alert("Kết quả đã được gửi đến email của bạn!");
+                }, function(error) {
+                    alert("Có lỗi khi gửi email: " + JSON.stringify(error));
+                });
+        }
+    </script>
+</body>
+</html>
