@@ -1,118 +1,82 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ED Pronunciation Quiz</title>
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        .question { margin-bottom: 15px; }
-        .wrong { color: red; font-weight: bold; }
-        .correct { color: green; font-weight: bold; }
-        #result { margin-top: 20px; font-size: 18px; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("ElHtGvxfWTX6zj1zh"); // User ID từ EmailJS
+        })();
+
+        function sendEmail(results) {
+            emailjs.send("service_7qb0hje", "template_aa93qgo", {
+                q1: results[0],
+                q2: results[1],
+                q3: results[2],
+                q4: results[3],
+                q5: results[4],
+                q6: results[5],
+                q7: results[6],
+                q8: results[7],
+                q9: results[8],
+                q10: results[9],
+                q11: results[10],
+                q12: results[11],
+                q13: results[12],
+                q14: results[13],
+                q15: results[14],
+                q16: results[15],
+                q17: results[16],
+                q18: results[17],
+                q19: results[18],
+                q20: results[19],
+                q21: results[20],
+                q22: results[21],
+                q23: results[22],
+                q24: results[23],
+                q25: results[24],
+                q26: results[25],
+                q27: results[26],
+                q28: results[27],
+                q29: results[28],
+                email_to: "liana4539g@gmail.com" // Email nhận kết quả
+            }).then(function(response) {
+                alert("Kết quả đã được gửi thành công!");
+            }, function(error) {
+                alert("Gửi email thất bại, kiểm tra lại cấu hình!");
+            });
+        }
+
+        function checkAnswers() {
+            let answers = [];
+            for (let i = 1; i <= 29; i++) {
+                let selected = document.querySelector(`input[name="q${i}"]:checked`);
+                answers.push(selected ? selected.value : "Chưa chọn");
+            }
+            sendEmail(answers);
+        }
+    </script>
 </head>
 <body>
-
     <h2>ED Pronunciation Quiz</h2>
     <form id="quizForm">
-        <div id="questions"></div>
-        <button type="button" onclick="submitQuiz()">Nộp bài</button>
+        <p>1. Chọn từ có cách phát âm khác:</p>
+        <input type="radio" name="q1" value="A"> A. needed  
+        <input type="radio" name="q1" value="B"> B. booked  
+        <input type="radio" name="q1" value="C"> C. stopped  
+        <input type="radio" name="q1" value="D"> D. washed  
+
+        <p>2. Chọn từ có cách phát âm khác:</p>
+        <input type="radio" name="q2" value="A"> A. loved  
+        <input type="radio" name="q2" value="B"> B. teased  
+        <input type="radio" name="q2" value="C"> C. washed  
+        <input type="radio" name="q2" value="D"> D. rained  
+
+        <!-- Thêm các câu hỏi tiếp theo từ 3 đến 29 ở đây -->
+
+        <button type="button" onclick="checkAnswers()">Nộp bài</button>
     </form>
-
-    <div id="result"></div>
-
-    <script>
-        const questions = [
-            { question: "1. Asked - Helped - Played - Watched", correct: "Played" },
-            { question: "2. Worked - Needed - Wanted - Painted", correct: "Worked" },
-            { question: "3. Laughed - Closed - Stopped - Hoped", correct: "Closed" },
-            { question: "4. Kissed - Pulled - Looked - Washed", correct: "Pulled" },
-            { question: "5. Opened - Passed - Picked - Pushed", correct: "Opened" },
-            { question: "6. Jumped - Smiled - Lived - Answered", correct: "Jumped" },
-            { question: "7. Fixed - Repeated - Invited - Decided", correct: "Fixed" },
-            { question: "8. Destroyed - Played - Moved - Laughed", correct: "Laughed" },
-            { question: "9. Finished - Loved - Used - Called", correct: "Finished" },
-            { question: "10. Watched - Danced - Cleaned - Liked", correct: "Cleaned" },
-            { question: "11. Smoked - Touched - Remembered - Opened", correct: "Touched" },
-            { question: "12. Borrowed - Opened - Rained - Stopped", correct: "Stopped" },
-            { question: "13. Wanted - Painted - Loved - Needed", correct: "Loved" },
-            { question: "14. Shouted - Divided - Started - Changed", correct: "Changed" },
-            { question: "15. Danced - Cried - Smiled - Played", correct: "Danced" },
-            { question: "16. Cooked - Chatted - Waited - Visited", correct: "Cooked" },
-            { question: "17. Lived - Climbed - Robbed - Helped", correct: "Helped" },
-            { question: "18. Typed - Stopped - Cleaned - Breathed", correct: "Stopped" },
-            { question: "19. Wrapped - Touched - Opened - Kissed", correct: "Opened" },
-            { question: "20. Breathed - Hugged - Missed - Slammed", correct: "Missed" },
-            { question: "21. Washed - Screamed - Pushed - Asked", correct: "Screamed" },
-            { question: "22. Picked - Pulled - Praised - Saved", correct: "Picked" },
-            { question: "23. Waited - Believed - Needed - Expected", correct: "Believed" },
-            { question: "24. Damaged - Knocked - Reached - Laughed", correct: "Damaged" },
-            { question: "25. Developed - Surprised - Repeated - Decided", correct: "Surprised" },
-            { question: "26. Hoped - Begged - Agreed - Managed", correct: "Hoped" },
-            { question: "27. Advised - Blamed - Missed - Cleaned", correct: "Missed" },
-            { question: "28. Invited - Played - Waited - Needed", correct: "Played" },
-            { question: "29. Provided - Lived - Closed - Opened", correct: "Provided" },
-        ];
-
-        function loadQuestions() {
-            const container = document.getElementById("questions");
-            questions.forEach((q, index) => {
-                let questionHtml = `<div class="question">
-                    <p>${q.question}</p>
-                    <select id="q${index}">
-                        <option value="">-- Chọn từ khác loại --</option>
-                        ${q.question.split(" - ").map(word => `<option value="${word}">${word}</option>`).join("")}
-                    </select>
-                </div>`;
-                container.innerHTML += questionHtml;
-            });
-        }
-
-        function submitQuiz() {
-            let score = 0;
-            let emailContent = "📩 Kết quả bài quiz ED Pronunciation\n\n";
-            document.getElementById("result").innerHTML = "";
-
-            questions.forEach((q, index) => {
-                let selected = document.getElementById(`q${index}`).value;
-                let resultText = `<p>Câu ${index + 1}: `;
-
-                if (selected === q.correct) {
-                    score++;
-                    resultText += `<span class="correct">${selected} ✅</span>`;
-                } else {
-                    resultText += `<span class="wrong">${selected || "Chưa chọn"} ❌ (Đúng: ${q.correct})</span>`;
-                }
-
-                resultText += `</p>`;
-                document.getElementById("result").innerHTML += resultText;
-
-                emailContent += `📌 Câu ${index + 1}: ${selected || "Chưa chọn"} (Đúng: ${q.correct})\n`;
-            });
-
-            emailContent += `\n🎯 Điểm: ${score}/29\n📨 Được gửi từ hệ thống quiz.`;
-
-            sendEmail(emailContent);
-        }
-
-        function sendEmail(content) {
-            emailjs.init("ElHtGvxfWTX6zj1zh");
-
-            emailjs.send("service_7qb0hje", "template_aa93qgo", {
-                message: content,
-                to_email: "liana4539g@gmail.com"
-            }).then(response => {
-                alert("📧 Kết quả đã gửi đến email của bạn!");
-            }).catch(error => {
-                alert("❌ Gửi email thất bại! Kiểm tra lại cấu hình.");
-                console.error(error);
-            });
-        }
-
-        window.onload = loadQuestions;
-    </script>
-
 </body>
 </html>
